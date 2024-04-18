@@ -20,13 +20,13 @@ jobs:
         run: |
           sudo dnf install -y podman skopeo jq
 
-          IMAGE_DIGEST=$(skopeo inspect --tls-verify=false "docker://${RHEL_REGISTRY_URL}/rhel9-rhel_bootc:rhel-9.4" | jq -r '.Digest')
-          IMAGE_VERSION=$(skopeo inspect --tls-verify=false "docker://${RHEL_REGISTRY_URL}/rhel9-rhel_bootc:rhel-9.4" | jq -r '.Labels."org.opencontainers.image.version"')
-          KERNEL_VERSION=$(skopeo inspect --tls-verify=false "docker://${RHEL_REGISTRY_URL}/rhel9-rhel_bootc:rhel-9.4" | jq -r '.Labels."ostree.linux"')
-          COMPOSE_ID=$(skopeo inspect --tls-verify=false "docker://${RHEL_REGISTRY_URL}/rhel9-rhel_bootc:rhel-9.4" | jq -r '.Labels."redhat.compose-id"')
-          BOOTC_VERSION=$(podman run --tls-verify=false --rm "${RHEL_REGISTRY_URL}/rhel9-rhel_bootc:rhel-9.4" rpm -qa | grep bootc)
-          OSTREE_VERSION=$(podman run --tls-verify=false --rm "${RHEL_REGISTRY_URL}/rhel9-rhel_bootc:rhel-9.4" rpm -qa | grep "^ostree-2")
-          BOOTUPD_VERSION=$(podman run --tls-verify=false --rm "${RHEL_REGISTRY_URL}/rhel9-rhel_bootc:rhel-9.4" rpm -qa | grep bootupd)
+          IMAGE_DIGEST=$(skopeo inspect --tls-verify=false "docker://${RHEL94_TIER1_IMAGE_URL}" | jq -r '.Digest')
+          IMAGE_VERSION=$(skopeo inspect --tls-verify=false "docker://${RHEL94_TIER1_IMAGE_URL}" | jq -r '.Labels."org.opencontainers.image.version"')
+          KERNEL_VERSION=$(skopeo inspect --tls-verify=false "docker://${RHEL94_TIER1_IMAGE_URL}" | jq -r '.Labels."ostree.linux"')
+          COMPOSE_ID=$(skopeo inspect --tls-verify=false "docker://${RHEL94_TIER1_IMAGE_URL}" | jq -r '.Labels."redhat.compose-id"')
+          BOOTC_VERSION=$(podman run --tls-verify=false --rm "docker://${RHEL94_TIER1_IMAGE_URL}" rpm -qa | grep bootc)
+          OSTREE_VERSION=$(podman run --tls-verify=false --rm "docker://${RHEL94_TIER1_IMAGE_URL}" rpm -qa | grep "^ostree-2")
+          BOOTUPD_VERSION=$(podman run --tls-verify=false --rm "docker://${RHEL94_TIER1_IMAGE_URL}" rpm -qa | grep bootupd)
           BIB_IMAGE_DIGEST=$(skopeo inspect --tls-verify=false "docker://quay.io/centos-bootc/bootc-image-builder:latest" | jq -r '.Digest')
 
           echo "image_digest=$IMAGE_DIGEST" >> $GITHUB_OUTPUT
@@ -38,7 +38,7 @@ jobs:
           echo "bootupd_version=$BOOTUPD_VERSION" >> $GITHUB_OUTPUT
           echo "bib_image_digest=$BIB_IMAGE_DIGEST" >> $GITHUB_OUTPUT
         env:
-          RHEL_REGISTRY_URL: ${{ secrets.RHEL_REGISTRY_URL }}
+          RHEL94_TIER1_IMAGE_URL: ${{ secrets.RHEL94_TIER1_IMAGE_URL }}
 
     outputs:
       image_digest: ${{ steps.check_image_rhel9.outputs.image_digest }}
