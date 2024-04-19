@@ -228,18 +228,6 @@ jobs:
             platform: vsphere
           - image_type: raw
             platform: libvirt
-          - arch: x86_64
-            build_arch: x86_64
-            runner_compose: RHEL-9.5.0-Nightly
-          - arch: aarch64
-            build_arch: aarch64
-            runner_compose: RHEL-9.5.0-Nightly
-          - arch: aarch64
-            build_arch: x86_64
-            runner_compose: Fedora-40
-          - arch: x86_64
-            build_arch: aarch64
-            runner_compose: Fedora-40
     runs-on: ubuntu-latest
 
     steps:
@@ -249,12 +237,10 @@ jobs:
           ref: ${{ needs.pr-info.outputs.sha }}
           fetch-depth: 0
 
-      # Fedora-40 is for bib cross building test
-      # RHEL-9.5.0-Nightly is for bib non-cross building test
       - name: Run the tests
         uses: sclorg/testing-farm-as-github-action@v1
         with:
-          compose: ${{ matrix.runner_compose }}
+          compose: Fedora-40
           api_key: ${{ secrets.TF_API_KEY }}
           git_url: https://github.com/virt-s1/bootc-workflow-test
           git_ref: main
