@@ -60,12 +60,14 @@ jobs:
     strategy:
       matrix:
         arch: [x86_64]
-        platform: [openstack, gcp, aws, azure, libvirt, bare]
+        platform: [openstack, gcp, aws, azure, libvirt, beaker, bare]
         include:
           - arch: aarch64
             platform: aws
           - arch: aarch64
             platform: bare
+          - arch: aarch64
+            platform: beaker
     runs-on: ubuntu-latest
 
     steps:
@@ -89,7 +91,7 @@ jobs:
           tmt_plan_regex: "${{ matrix.platform }}"
           tf_scope: private
           secrets: "TIER1_IMAGE_URL=${{ secrets.RHEL95_TIER1_IMAGE_URL }};OS_USERNAME=${{ secrets.OS_USERNAME }};OS_PASSWORD=${{ secrets.OS_PASSWORD }};OS_AUTH_URL=${{ secrets.OS_AUTH_URL }};QUAY_USERNAME=${{ secrets.QUAY_USERNAME }};QUAY_PASSWORD=${{ secrets.QUAY_PASSWORD }};QUAY_SECRET=${{ secrets.QUAY_SECRET }};DOWNLOAD_NODE=${{ secrets.DOWNLOAD_NODE }};GCP_SERVICE_ACCOUNT_FILE_B64=${{ secrets.GCP_SERVICE_ACCOUNT_FILE_B64 }};AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }};AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }};CERT_URL=${{ secrets.CERT_URL }};RHC_AK=${{ secrets.RHC_AK }};RHC_ORGID=${{ secrets.RHC_ORGID }};BEAKER_KEYTAB_B64=${{ secrets.BEAKER_KEYTAB_B64 }};BEAKER_CLIENT_B64=${{ secrets.BEAKER_CLIENT_B64 }};KRB5_CONF_B64=${{ secrets.KRB5_CONF_B64 }};AZURE_SECRET=${{ secrets.AZURE_SECRET }}"
-          variables: "PLATFORM=${{ matrix.platform }};ARCH=${{ matrix.arch }};OS_PROJECT_NAME=${{ secrets.OS_PROJECT_NAME }};OS_USER_DOMAIN_NAME=${{ secrets.OS_USER_DOMAIN_NAME }};OS_PROJECT_DOMAIN_NAME=${{ secrets.OS_PROJECT_DOMAIN_NAME }};GCP_PROJECT=${{ secrets.GCP_PROJECT }};AWS_REGION=${{ secrets.AWS_REGION }};FIRMWARE=${{ matrix.firmware }};AZURE_SUBSCRIPTION_ID=${{ secrets.AZURE_SUBSCRIPTION_ID }};AZURE_CLIENT_ID=${{ secrets.AZURE_CLIENT_ID }};AZURE_TENANT=${{ secrets.AZURE_TENANT }}"
+          variables: "PLATFORM=${{ matrix.platform }};ARCH=${{ matrix.arch }};OS_PROJECT_NAME=${{ secrets.OS_PROJECT_NAME }};OS_USER_DOMAIN_NAME=${{ secrets.OS_USER_DOMAIN_NAME }};OS_PROJECT_DOMAIN_NAME=${{ secrets.OS_PROJECT_DOMAIN_NAME }};GCP_PROJECT=${{ secrets.GCP_PROJECT }};AWS_REGION=${{ secrets.AWS_REGION }};AZURE_SUBSCRIPTION_ID=${{ secrets.AZURE_SUBSCRIPTION_ID }};AZURE_CLIENT_ID=${{ secrets.AZURE_CLIENT_ID }};AZURE_TENANT=${{ secrets.AZURE_TENANT }}"
 
   rhel94-replace:
     needs: pr-info
@@ -104,9 +106,8 @@ jobs:
         include:
           - arch: aarch64
             platform: aws
-          - arch: x86_64
+          - arch: aarch64
             platform: beaker
-            firmware: bios
     runs-on: ubuntu-latest
 
     steps:
@@ -130,7 +131,7 @@ jobs:
           tmt_plan_regex: "${{ matrix.platform }}"
           tf_scope: private
           secrets: "TIER1_IMAGE_URL=${{ secrets.RHEL94_TIER1_IMAGE_URL }};OS_USERNAME=${{ secrets.OS_USERNAME }};OS_PASSWORD=${{ secrets.OS_PASSWORD }};OS_AUTH_URL=${{ secrets.OS_AUTH_URL }};QUAY_USERNAME=${{ secrets.QUAY_USERNAME }};QUAY_PASSWORD=${{ secrets.QUAY_PASSWORD }};QUAY_SECRET=${{ secrets.QUAY_SECRET }};DOWNLOAD_NODE=${{ secrets.DOWNLOAD_NODE }};GCP_SERVICE_ACCOUNT_FILE_B64=${{ secrets.GCP_SERVICE_ACCOUNT_FILE_B64 }};AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }};AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }};CERT_URL=${{ secrets.CERT_URL }};RHC_AK=${{ secrets.RHC_AK }};RHC_ORGID=${{ secrets.RHC_ORGID }};BEAKER_KEYTAB_B64=${{ secrets.BEAKER_KEYTAB_B64 }};BEAKER_CLIENT_B64=${{ secrets.BEAKER_CLIENT_B64 }};KRB5_CONF_B64=${{ secrets.KRB5_CONF_B64 }};AZURE_SECRET=${{ secrets.AZURE_SECRET }}"
-          variables: "PLATFORM=${{ matrix.platform }};ARCH=${{ matrix.arch }};OS_PROJECT_NAME=${{ secrets.OS_PROJECT_NAME }};OS_USER_DOMAIN_NAME=${{ secrets.OS_USER_DOMAIN_NAME }};OS_PROJECT_DOMAIN_NAME=${{ secrets.OS_PROJECT_DOMAIN_NAME }};GCP_PROJECT=${{ secrets.GCP_PROJECT }};AWS_REGION=${{ secrets.AWS_REGION }};FIRMWARE=${{ matrix.firmware }};AZURE_SUBSCRIPTION_ID=${{ secrets.AZURE_SUBSCRIPTION_ID }};AZURE_CLIENT_ID=${{ secrets.AZURE_CLIENT_ID }};AZURE_TENANT=${{ secrets.AZURE_TENANT }}"
+          variables: "PLATFORM=${{ matrix.platform }};ARCH=${{ matrix.arch }};OS_PROJECT_NAME=${{ secrets.OS_PROJECT_NAME }};OS_USER_DOMAIN_NAME=${{ secrets.OS_USER_DOMAIN_NAME }};OS_PROJECT_DOMAIN_NAME=${{ secrets.OS_PROJECT_DOMAIN_NAME }};GCP_PROJECT=${{ secrets.GCP_PROJECT }};AWS_REGION=${{ secrets.AWS_REGION }};AZURE_SUBSCRIPTION_ID=${{ secrets.AZURE_SUBSCRIPTION_ID }};AZURE_CLIENT_ID=${{ secrets.AZURE_CLIENT_ID }};AZURE_TENANT=${{ secrets.AZURE_TENANT }}"
 
   cs9-replace:
     needs: pr-info
@@ -145,9 +146,8 @@ jobs:
         include:
           - arch: aarch64
             platform: aws
-          - arch: x86_64
+          - arch: aarch64
             platform: beaker
-            firmware: bios
     runs-on: ubuntu-latest
 
     steps:
@@ -171,7 +171,7 @@ jobs:
           tmt_plan_regex: "${{ matrix.platform }}"
           tf_scope: private
           secrets: "TIER1_IMAGE_URL=${{ secrets.CS9_TIER1_IMAGE_URL }};OS_USERNAME=${{ secrets.OS_USERNAME }};OS_PASSWORD=${{ secrets.OS_PASSWORD }};OS_AUTH_URL=${{ secrets.OS_AUTH_URL }};QUAY_USERNAME=${{ secrets.QUAY_USERNAME }};QUAY_PASSWORD=${{ secrets.QUAY_PASSWORD }};QUAY_SECRET=${{ secrets.QUAY_SECRET }};GCP_SERVICE_ACCOUNT_FILE_B64=${{ secrets.GCP_SERVICE_ACCOUNT_FILE_B64 }};AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }};AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }};CERT_URL=${{ secrets.CERT_URL }};BEAKER_KEYTAB_B64=${{ secrets.BEAKER_KEYTAB_B64 }};BEAKER_CLIENT_B64=${{ secrets.BEAKER_CLIENT_B64 }};KRB5_CONF_B64=${{ secrets.KRB5_CONF_B64 }};AZURE_SECRET=${{ secrets.AZURE_SECRET }}"
-          variables: "PLATFORM=${{ matrix.platform }};ARCH=${{ matrix.arch }};OS_PROJECT_NAME=${{ secrets.OS_PROJECT_NAME }};OS_USER_DOMAIN_NAME=${{ secrets.OS_USER_DOMAIN_NAME }};OS_PROJECT_DOMAIN_NAME=${{ secrets.OS_PROJECT_DOMAIN_NAME }};GCP_PROJECT=${{ secrets.GCP_PROJECT }};AWS_REGION=${{ secrets.AWS_REGION }};FIRMWARE=${{ matrix.firmware }};AZURE_SUBSCRIPTION_ID=${{ secrets.AZURE_SUBSCRIPTION_ID }};AZURE_CLIENT_ID=${{ secrets.AZURE_CLIENT_ID }};AZURE_TENANT=${{ secrets.AZURE_TENANT }}"
+          variables: "PLATFORM=${{ matrix.platform }};ARCH=${{ matrix.arch }};OS_PROJECT_NAME=${{ secrets.OS_PROJECT_NAME }};OS_USER_DOMAIN_NAME=${{ secrets.OS_USER_DOMAIN_NAME }};OS_PROJECT_DOMAIN_NAME=${{ secrets.OS_PROJECT_DOMAIN_NAME }};GCP_PROJECT=${{ secrets.GCP_PROJECT }};AWS_REGION=${{ secrets.AWS_REGION }};AZURE_SUBSCRIPTION_ID=${{ secrets.AZURE_SUBSCRIPTION_ID }};AZURE_CLIENT_ID=${{ secrets.AZURE_CLIENT_ID }};AZURE_TENANT=${{ secrets.AZURE_TENANT }}"
 
   cs9-dev-replace:
     needs: pr-info
@@ -182,10 +182,12 @@ jobs:
     strategy:
       matrix:
         arch: [x86_64]
-        platform: [openstack, gcp, aws, azure, libvirt, bare]
+        platform: [openstack, gcp, aws, azure, libvirt, beaker, bare]
         include:
           - arch: aarch64
             platform: aws
+          - arch: aarch64
+            platform: beaker
           - arch: aarch64
             platform: bare
     runs-on: ubuntu-latest
@@ -211,7 +213,7 @@ jobs:
           tmt_plan_regex: "${{ matrix.platform }}"
           tf_scope: private
           secrets: "TIER1_IMAGE_URL=${{ secrets.CS9_DEV_TIER1_IMAGE_URL }};OS_USERNAME=${{ secrets.OS_USERNAME }};OS_PASSWORD=${{ secrets.OS_PASSWORD }};OS_AUTH_URL=${{ secrets.OS_AUTH_URL }};QUAY_USERNAME=${{ secrets.QUAY_USERNAME }};QUAY_PASSWORD=${{ secrets.QUAY_PASSWORD }};QUAY_SECRET=${{ secrets.QUAY_SECRET }};GCP_SERVICE_ACCOUNT_FILE_B64=${{ secrets.GCP_SERVICE_ACCOUNT_FILE_B64 }};AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }};AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }};CERT_URL=${{ secrets.CERT_URL }};RHC_AK=${{ secrets.RHC_AK }};RHC_ORGID=${{ secrets.RHC_ORGID }};BEAKER_KEYTAB_B64=${{ secrets.BEAKER_KEYTAB_B64 }};BEAKER_CLIENT_B64=${{ secrets.BEAKER_CLIENT_B64 }};KRB5_CONF_B64=${{ secrets.KRB5_CONF_B64 }};AZURE_SECRET=${{ secrets.AZURE_SECRET }}"
-          variables: "PLATFORM=${{ matrix.platform }};ARCH=${{ matrix.arch }};OS_PROJECT_NAME=${{ secrets.OS_PROJECT_NAME }};OS_USER_DOMAIN_NAME=${{ secrets.OS_USER_DOMAIN_NAME }};OS_PROJECT_DOMAIN_NAME=${{ secrets.OS_PROJECT_DOMAIN_NAME }};GCP_PROJECT=${{ secrets.GCP_PROJECT }};AWS_REGION=${{ secrets.AWS_REGION }};FIRMWARE=${{ matrix.firmware }};AZURE_SUBSCRIPTION_ID=${{ secrets.AZURE_SUBSCRIPTION_ID }};AZURE_CLIENT_ID=${{ secrets.AZURE_CLIENT_ID }};AZURE_TENANT=${{ secrets.AZURE_TENANT }}"
+          variables: "PLATFORM=${{ matrix.platform }};ARCH=${{ matrix.arch }};OS_PROJECT_NAME=${{ secrets.OS_PROJECT_NAME }};OS_USER_DOMAIN_NAME=${{ secrets.OS_USER_DOMAIN_NAME }};OS_PROJECT_DOMAIN_NAME=${{ secrets.OS_PROJECT_DOMAIN_NAME }};GCP_PROJECT=${{ secrets.GCP_PROJECT }};AWS_REGION=${{ secrets.AWS_REGION }};AZURE_SUBSCRIPTION_ID=${{ secrets.AZURE_SUBSCRIPTION_ID }};AZURE_CLIENT_ID=${{ secrets.AZURE_CLIENT_ID }};AZURE_TENANT=${{ secrets.AZURE_TENANT }}"
 
   cs9-layered:
     needs: pr-info
