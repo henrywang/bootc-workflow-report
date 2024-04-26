@@ -27,7 +27,7 @@ jobs:
           BOOTC_VERSION=$(podman run --tls-verify=false --rm "docker://${RHEL95_TIER1_IMAGE_URL}" rpm -qa | grep bootc)
           OSTREE_VERSION=$(podman run --tls-verify=false --rm "docker://${RHEL95_TIER1_IMAGE_URL}" rpm -qa | grep "^ostree-2")
           BOOTUPD_VERSION=$(podman run --tls-verify=false --rm "docker://${RHEL95_TIER1_IMAGE_URL}" rpm -qa | grep bootupd)
-          BIB_IMAGE_DIGEST=$(skopeo inspect --tls-verify=false "docker://quay.io/centos-bootc/bootc-image-builder:latest" | jq -r '.Digest')
+          BIB_IMAGE_DIGEST=$(skopeo inspect --tls-verify=false "docker://${RHEL_REGISTRY_URL}/rhel9-rhel_bootc-image-builder:rhel-9.5" | jq -r '.Digest')
 
           echo "image_digest=$IMAGE_DIGEST" >> $GITHUB_OUTPUT
           echo "image_version=$IMAGE_VERSION" >> $GITHUB_OUTPUT
@@ -39,6 +39,7 @@ jobs:
           echo "bib_image_digest=$BIB_IMAGE_DIGEST" >> $GITHUB_OUTPUT
         env:
           RHEL95_TIER1_IMAGE_URL: ${{ secrets.RHEL95_TIER1_IMAGE_URL }}
+          RHEL_REGISTRY_URL: ${{ secrets.RHEL_REGISTRY_URL }}
 
     outputs:
       image_digest: ${{ steps.check_image_rhel9.outputs.image_digest }}
@@ -86,6 +87,8 @@ jobs:
             - bootc Version: ${{ needs.check-image.outputs.bootc_version }}
             - ostree Version: ${{ needs.check-image.outputs.ostree_version }}
             - bootupd Version: ${{ needs.check-image.outputs.bootupd_version }}
+
+            rhel9-rhel_bootc-image-builder:rhel-9.5 image
             - bib Image Digest: ${{ needs.check-image.outputs.bib_image_digest }}
 
             Test includes OS replace test, anaconda installation test and bib test
