@@ -59,10 +59,13 @@ jobs:
     strategy:
       matrix:
         arch: [x86_64, aarch64]
-        image_type: [ami, qcow2, vmdk, raw, to-disk]
+        image_type: [ami, qcow2, vmdk, raw, anaconda-iso, to-disk]
+        firmware: [image]
         exclude:
           - arch: aarch64
             image_type: vmdk
+          - image_type: anaconda-iso
+            firmware: image
         include:
           - image_type: ami
             platform: aws
@@ -74,6 +77,18 @@ jobs:
             platform: libvirt
           - image_type: to-disk
             platform: libvirt
+          - image_type: anaconda-iso
+            platform: libvirt
+            arch: x86_64
+            firmware: bios
+          - image_type: anaconda-iso
+            platform: libvirt
+            arch: x86_64
+            firmware: uefi
+          - image_type: anaconda-iso
+            platform: libvirt
+            arch: aarch64
+            firmware: uefi
     runs-on: ubuntu-latest
 
     steps:
@@ -93,11 +108,11 @@ jobs:
           arch: ${{ matrix.arch }}
           tmt_context: "arch=${{ matrix.arch }}"
           update_pull_request_status: true
-          pull_request_status_name: "bootc-rhel95-${{ matrix.arch }}-bib-${{ matrix.image_type }}"
+          pull_request_status_name: "bootc-rhel95-${{ matrix.arch }}-bib-${{ matrix.image_type }}-${{ matrix.firmware }}"
           tmt_plan_regex: "${{ matrix.image_type }}"
           tf_scope: private
           secrets: "TIER1_IMAGE_URL=${{ secrets.RHEL95_TIER1_IMAGE_URL }};QUAY_USERNAME=${{ secrets.QUAY_USERNAME }};QUAY_PASSWORD=${{ secrets.QUAY_PASSWORD }};QUAY_SECRET=${{ secrets.QUAY_SECRET }};RHEL_REGISTRY_URL=${{ secrets.RHEL_REGISTRY_URL }};DOWNLOAD_NODE=${{ secrets.DOWNLOAD_NODE }};AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }};AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }};GOVC_URL=${{ secrets.GOVC_URL }};GOVC_USERNAME=${{ secrets.GOVC_USERNAME }};GOVC_PASSWORD=${{ secrets.GOVC_PASSWORD }};RHC_AK=${{ secrets.RHC_AK }};RHC_ORGID=${{ secrets.RHC_ORGID }}"
-          variables: "PLATFORM=${{ matrix.platform }};ARCH=${{ matrix.arch }};IMAGE_TYPE=${{ matrix.image_type }};AWS_REGION=${{ secrets.AWS_REGION }};GOVC_INSECURE=1"
+          variables: "PLATFORM=${{ matrix.platform }};ARCH=${{ matrix.arch }};IMAGE_TYPE=${{ matrix.image_type }};AWS_REGION=${{ secrets.AWS_REGION }};GOVC_INSECURE=1;FIRMWARE=${{ matrix.firmware }}"
 
   rhel94-bib-image:
     needs: pr-info
@@ -108,10 +123,13 @@ jobs:
     strategy:
       matrix:
         arch: [x86_64, aarch64]
-        image_type: [ami, qcow2, vmdk, raw, to-disk]
+        image_type: [ami, qcow2, vmdk, raw, anaconda-iso, to-disk]
+        firmware: [image]
         exclude:
           - arch: aarch64
             image_type: vmdk
+          - image_type: anaconda-iso
+            firmware: image
         include:
           - image_type: ami
             platform: aws
@@ -123,6 +141,18 @@ jobs:
             platform: libvirt
           - image_type: to-disk
             platform: libvirt
+          - image_type: anaconda-iso
+            platform: libvirt
+            arch: x86_64
+            firmware: bios
+          - image_type: anaconda-iso
+            platform: libvirt
+            arch: x86_64
+            firmware: uefi
+          - image_type: anaconda-iso
+            platform: libvirt
+            arch: aarch64
+            firmware: uefi
     runs-on: ubuntu-latest
 
     steps:
@@ -142,11 +172,11 @@ jobs:
           arch: ${{ matrix.arch }}
           tmt_context: "arch=${{ matrix.arch }}"
           update_pull_request_status: true
-          pull_request_status_name: "bootc-rhel94-${{ matrix.arch }}-bib-${{ matrix.image_type }}"
+          pull_request_status_name: "bootc-rhel94-${{ matrix.arch }}-bib-${{ matrix.image_type }}-${{ matrix.firmware }}"
           tmt_plan_regex: "${{ matrix.image_type }}"
           tf_scope: private
           secrets: "TIER1_IMAGE_URL=${{ secrets.RHEL94_TIER1_IMAGE_URL }};QUAY_USERNAME=${{ secrets.QUAY_USERNAME }};QUAY_PASSWORD=${{ secrets.QUAY_PASSWORD }};QUAY_SECRET=${{ secrets.QUAY_SECRET }};DOWNLOAD_NODE=${{ secrets.DOWNLOAD_NODE }};AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }};AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }};GOVC_URL=${{ secrets.GOVC_URL }};GOVC_USERNAME=${{ secrets.GOVC_USERNAME }};GOVC_PASSWORD=${{ secrets.GOVC_PASSWORD }};RHC_AK=${{ secrets.RHC_AK }};RHC_ORGID=${{ secrets.RHC_ORGID }}"
-          variables: "PLATFORM=${{ matrix.platform }};ARCH=${{ matrix.arch }};IMAGE_TYPE=${{ matrix.image_type }};AWS_REGION=${{ secrets.AWS_REGION }};GOVC_INSECURE=1"
+          variables: "PLATFORM=${{ matrix.platform }};ARCH=${{ matrix.arch }};IMAGE_TYPE=${{ matrix.image_type }};AWS_REGION=${{ secrets.AWS_REGION }};GOVC_INSECURE=1;FIRMWARE=${{ matrix.firmware }}"
 
   cs9-bib-image:
     needs: pr-info
@@ -157,10 +187,13 @@ jobs:
     strategy:
       matrix:
         arch: [x86_64, aarch64]
-        image_type: [ami, qcow2, vmdk, raw, to-disk]
+        image_type: [ami, qcow2, vmdk, raw, anaconda-iso, to-disk]
+        firmware: [image]
         exclude:
           - arch: aarch64
             image_type: vmdk
+          - image_type: anaconda-iso
+            firmware: image
         include:
           - image_type: ami
             platform: aws
@@ -172,6 +205,18 @@ jobs:
             platform: libvirt
           - image_type: to-disk
             platform: libvirt
+          - image_type: anaconda-iso
+            platform: libvirt
+            arch: x86_64
+            firmware: bios
+          - image_type: anaconda-iso
+            platform: libvirt
+            arch: x86_64
+            firmware: uefi
+          - image_type: anaconda-iso
+            platform: libvirt
+            arch: aarch64
+            firmware: uefi
     runs-on: ubuntu-latest
 
     steps:
@@ -191,11 +236,11 @@ jobs:
           arch: ${{ matrix.arch }}
           tmt_context: "arch=${{ matrix.arch }}"
           update_pull_request_status: true
-          pull_request_status_name: "bootc-cs9-${{ matrix.arch }}-bib-${{ matrix.image_type }}"
+          pull_request_status_name: "bootc-cs9-${{ matrix.arch }}-bib-${{ matrix.image_type }}-${{ matrix.firmware }}"
           tmt_plan_regex: "${{ matrix.image_type }}"
           tf_scope: private
           secrets: "TIER1_IMAGE_URL=${{ secrets.CS9_TIER1_IMAGE_URL }};QUAY_USERNAME=${{ secrets.QUAY_USERNAME }};QUAY_PASSWORD=${{ secrets.QUAY_PASSWORD }};QUAY_SECRET=${{ secrets.QUAY_SECRET }};AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }};AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }};CERT_URL=${{ secrets.CERT_URL }};GOVC_URL=${{ secrets.GOVC_URL }};GOVC_USERNAME=${{ secrets.GOVC_USERNAME }};GOVC_PASSWORD=${{ secrets.GOVC_PASSWORD }}"
-          variables: "PLATFORM=${{ matrix.platform }};ARCH=${{ matrix.arch }};IMAGE_TYPE=${{ matrix.image_type }};AWS_REGION=${{ secrets.AWS_REGION }};GOVC_INSECURE=1"
+          variables: "PLATFORM=${{ matrix.platform }};ARCH=${{ matrix.arch }};IMAGE_TYPE=${{ matrix.image_type }};AWS_REGION=${{ secrets.AWS_REGION }};GOVC_INSECURE=1;FIRMWARE=${{ matrix.firmware }}"
 
   cs9-dev-bib-image:
     needs: pr-info
@@ -206,8 +251,9 @@ jobs:
     strategy:
       matrix:
         arch: [x86_64, aarch64]
-        image_type: [ami, qcow2, vmdk, raw, to-disk]
+        image_type: [ami, qcow2, vmdk, raw, anaconda-iso, to-disk]
         build_arch: [x86_64, aarch64]
+        firmware: [image]
         exclude:
           - image_type: vmdk
             arch: aarch64
@@ -231,6 +277,8 @@ jobs:
           - image_type: to-disk
             arch: aarch64
             build_arch: x86_64
+          - image_type: anaconda-iso
+            firmware: image
         include:
           - image_type: ami
             platform: aws
@@ -242,6 +290,18 @@ jobs:
             platform: libvirt
           - image_type: to-disk
             platform: libvirt
+          - image_type: anaconda-iso
+            platform: libvirt
+            arch: x86_64
+            firmware: bios
+          - image_type: anaconda-iso
+            platform: libvirt
+            arch: x86_64
+            firmware: uefi
+          - image_type: anaconda-iso
+            platform: libvirt
+            arch: aarch64
+            firmware: uefi
           - arch: x86_64
             build_arch: x86_64
             runner_compose: RHEL-9.5.0-Nightly
@@ -274,8 +334,8 @@ jobs:
           arch: ${{ matrix.build_arch }}
           tmt_context: "arch=${{ matrix.arch }}"
           update_pull_request_status: true
-          pull_request_status_name: "bootc-cs9-dev-${{ matrix.arch }}-bib-${{ matrix.image_type }}-on-${{ matrix.build_arch }}"
+          pull_request_status_name: "bootc-cs9-dev-${{ matrix.arch }}-bib-${{ matrix.image_type }}-on-${{ matrix.build_arch }}-${{ matrix.firmware }}"
           tmt_plan_regex: "${{ matrix.image_type }}"
           tf_scope: private
           secrets: "TIER1_IMAGE_URL=${{ secrets.CS9_DEV_TIER1_IMAGE_URL }};QUAY_USERNAME=${{ secrets.QUAY_USERNAME }};QUAY_PASSWORD=${{ secrets.QUAY_PASSWORD }};QUAY_SECRET=${{ secrets.QUAY_SECRET }};AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }};AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }};CERT_URL=${{ secrets.CERT_URL }};GOVC_URL=${{ secrets.GOVC_URL }};GOVC_USERNAME=${{ secrets.GOVC_USERNAME }};GOVC_PASSWORD=${{ secrets.GOVC_PASSWORD }}"
-          variables: "PLATFORM=${{ matrix.platform }};ARCH=${{ matrix.arch }};IMAGE_NAME=centos-bootc-dev;IMAGE_TYPE=${{ matrix.image_type }};AWS_REGION=${{ secrets.AWS_REGION }};GOVC_INSECURE=1"
+          variables: "PLATFORM=${{ matrix.platform }};ARCH=${{ matrix.arch }};IMAGE_NAME=centos-bootc-dev;IMAGE_TYPE=${{ matrix.image_type }};AWS_REGION=${{ secrets.AWS_REGION }};GOVC_INSECURE=1;FIRMWARE=${{ matrix.firmware }}"
