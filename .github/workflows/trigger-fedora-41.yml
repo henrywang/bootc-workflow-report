@@ -1,0 +1,110 @@
+---
+name: fedora-bootc:41 trigger
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 23 * * *'
+
+jobs:
+  check-image:
+    # Do not run this job on any fork repos
+    if: github.repository == 'virt-s1/bootc-workflow-report'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check fedora-bootc:41 image info
+        id: check_image_fedora41
+        run: |
+          IMAGE_DIGEST=$(skopeo inspect docker://quay.io/fedora/fedora-bootc:41 | jq -r '.Digest')
+          IMAGE_VERSION=$(skopeo inspect docker://quay.io/fedora/fedora-bootc:41 | jq -r '.Labels."org.opencontainers.image.version"')
+          KERNEL_VERSION=$(skopeo inspect docker://quay.io/fedora/fedora-bootc:41 | jq -r '.Labels."ostree.linux"')
+          BOOTC_VERSION=$(podman run --rm quay.io/fedora/fedora-bootc:41 rpm -qa | grep bootc)
+          OSTREE_VERSION=$(podman run --rm quay.io/fedora/fedora-bootc:41 rpm -qa | grep "^ostree-2")
+          BOOTUPD_VERSION=$(podman run --rm quay.io/fedora/fedora-bootc:41 rpm -qa | grep bootupd)
+          BIB_IMAGE_DIGEST=$(skopeo inspect --tls-verify=false "docker://quay.io/centos-bootc/bootc-image-builder:latest" | jq -r '.Digest')
+
+          echo "image_digest=$IMAGE_DIGEST" >> $GITHUB_OUTPUT
+          echo "image_version=$IMAGE_VERSION" >> $GITHUB_OUTPUT
+          echo "kernel_version=$KERNEL_VERSION" >> $GITHUB_OUTPUT
+          echo "bootc_version=$BOOTC_VERSION" >> $GITHUB_OUTPUT
+          echo "ostree_version=$OSTREE_VERSION" >> $GITHUB_OUTPUT
+          echo "bootupd_version=$BOOTUPD_VERSION" >> $GITHUB_OUTPUT
+          echo "bib_image_digest=$BIB_IMAGE_DIGEST" >> $GITHUB_OUTPUT
+
+    outputs:
+      image_digest: ${{ steps.check_image_fedora41.outputs.image_digest }}
+      image_version: ${{ steps.check_image_fedora41.outputs.image_version }}
+      kernel_version: ${{ steps.check_image_fedora41.outputs.kernel_version }}
+      bootc_version: ${{ steps.check_image_fedora41.outputs.bootc_version }}
+      ostree_version: ${{ steps.check_image_fedora41.outputs.ostree_version }}
+      bootupd_version: ${{ steps.check_image_fedora41.outputs.bootupd_version }}
+      bib_image_digest: ${{ steps.check_image_fedora41.outputs.bib_image_digest }}
+
+  create-pr:
+    needs: check-image
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Save tested container image digest
+        run: echo "${{ needs.check-image.outputs.image_digest }}" >> pr_files/pr_file.f41
+
+      - name: Get current date
+        id: date
+        run: echo "date=$(date +'%Y-%m-%d')" >> $GITHUB_OUTPUT
+
+      - name: Create Pull Request
+        id: cpr
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "build: fedora-bootc:41 - ${{ needs.check-image.outputs.image_version }} - ${{ steps.date.outputs.date }}"
+          committer: cloudkitebot <henrywangxf1@gmail.com>
+          author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
+          branch: cpr
+          branch-suffix: random
+          delete-branch: true
+          title: "fedora-bootc:41 - ${{ needs.check-image.outputs.image_version }} - ${{ steps.date.outputs.date }}"
+          labels: auto-merge,fedora-bootc:41
+          body: |
+            fedora-bootc:41 image ${{ needs.check-image.outputs.image_version }}
+            - Date: ${{ steps.date.outputs.date }}
+            - Image URL: quay.io/fedora/fedora-bootc:41
+            - Image Digest: ${{ needs.check-image.outputs.image_digest }}
+            - Image Version: ${{ needs.check-image.outputs.image_version }}
+            - Kernel Version: ${{ needs.check-image.outputs.kernel_version }}
+            - bootc Version: ${{ needs.check-image.outputs.bootc_version }}
+            - ostree Version: ${{ needs.check-image.outputs.ostree_version }}
+            - bootupd Version: ${{ needs.check-image.outputs.bootupd_version }}
+
+            bib image:
+            - Image URL: quay.io/centos-bootc/bootc-image-builder:latest image
+            - Image Digest: ${{ needs.check-image.outputs.bib_image_digest }}
+
+            Test includes OS replace test, anaconda installation test and bib test
+            - The OS replace test will use `bootc install` command inside bootc container image to install bootc OCI Image
+            - The anaconda test will install the bootc OCI image from kickstart command `ostreecontainer`
+            - The bib test will build AMI, qcow2, raw, anaconda-iso and vmdk with bib and deploy image
+
+      - name: Enable Pull Request Automerge
+        if: steps.cpr.outputs.pull-request-operation == 'created'
+        uses: peter-evans/enable-pull-request-automerge@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          pull-request-number: ${{ steps.cpr.outputs.pull-request-number }}
+          merge-method: rebase
+
+      - name: Add a comment to trigger test workflow
+        uses: peter-evans/create-or-update-comment@v4
+        with:
+          token: ${{ secrets.PAT }}
+          issue-number: ${{ steps.cpr.outputs.pull-request-number }}
+          body: /test-fedora-41
+
+      - name: Create a project card to track compose test result
+        uses: peter-evans/create-or-update-project-card@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          project-name: bootc test
+          column-name: fedora-bootc:41
+          issue-number: ${{ steps.cpr.outputs.pull-request-number }}
