@@ -82,7 +82,7 @@ jobs:
           arch: ${{ matrix.arch }}
           update_pull_request_status: true
           pull_request_status_name: "bootc-rhel95-anaconda-${{ matrix.arch }}"
-          tmt_context: "arch=${{ matrix.arch }}"
+          tmt_context: "arch=${{ matrix.arch }};distro=rhel"
           tmt_plan_regex: "/anaconda/"
           tf_scope: private
           secrets: "TIER1_IMAGE_URL=${{ secrets.RHEL95_TIER1_IMAGE_URL }};QUAY_USERNAME=${{ secrets.QUAY_USERNAME }};QUAY_PASSWORD=${{ secrets.QUAY_PASSWORD }};QUAY_SECRET=${{ secrets.QUAY_SECRET }};CERT_URL=${{ secrets.CERT_URL }};DOWNLOAD_NODE=${{ secrets.DOWNLOAD_NODE }};RHC_AK=${{ secrets.RHC_AK }};RHC_ORGID=${{ secrets.RHC_ORGID }}"
@@ -115,7 +115,7 @@ jobs:
           arch: ${{ matrix.arch }}
           update_pull_request_status: true
           pull_request_status_name: "bootc-rhel94-anaconda-${{ matrix.arch }}"
-          tmt_context: "arch=${{ matrix.arch }}"
+          tmt_context: "arch=${{ matrix.arch }};distro=rhel"
           tmt_plan_regex: "/anaconda/"
           tf_scope: private
           secrets: "TIER1_IMAGE_URL=${{ secrets.RHEL94_TIER1_IMAGE_URL }};QUAY_USERNAME=${{ secrets.QUAY_USERNAME }};QUAY_PASSWORD=${{ secrets.QUAY_PASSWORD }};QUAY_SECRET=${{ secrets.QUAY_SECRET }};CERT_URL=${{ secrets.CERT_URL }};DOWNLOAD_NODE=${{ secrets.DOWNLOAD_NODE }};RHC_AK=${{ secrets.RHC_AK }};RHC_ORGID=${{ secrets.RHC_ORGID }}"
@@ -148,7 +148,7 @@ jobs:
           arch: ${{ matrix.arch }}
           update_pull_request_status: true
           pull_request_status_name: "bootc-cs9-anaconda-${{ matrix.arch }}"
-          tmt_context: "arch=${{ matrix.arch }}"
+          tmt_context: "arch=${{ matrix.arch }};distro=centos-stream"
           tmt_plan_regex: "/anaconda/"
           tf_scope: private
           secrets: "TIER1_IMAGE_URL=${{ secrets.CS9_TIER1_IMAGE_URL }};QUAY_USERNAME=${{ secrets.QUAY_USERNAME }};QUAY_PASSWORD=${{ secrets.QUAY_PASSWORD }};QUAY_SECRET=${{ secrets.QUAY_SECRET }};CERT_URL=${{ secrets.CERT_URL }}"
@@ -181,7 +181,7 @@ jobs:
           arch: ${{ matrix.arch }}
           update_pull_request_status: true
           pull_request_status_name: "bootc-cs9-dev-anaconda-${{ matrix.arch }}"
-          tmt_context: "arch=${{ matrix.arch }}"
+          tmt_context: "arch=${{ matrix.arch }};distro=centos-stream"
           tmt_plan_regex: "/anaconda/"
           tf_scope: private
           secrets: "TIER1_IMAGE_URL=${{ secrets.CS9_DEV_TIER1_IMAGE_URL }};QUAY_USERNAME=${{ secrets.QUAY_USERNAME }};QUAY_PASSWORD=${{ secrets.QUAY_PASSWORD }};QUAY_SECRET=${{ secrets.QUAY_SECRET }};CERT_URL=${{ secrets.CERT_URL }}"
@@ -214,7 +214,7 @@ jobs:
           arch: ${{ matrix.arch }}
           update_pull_request_status: true
           pull_request_status_name: "bootc-fedora-40-anaconda-${{ matrix.arch }}"
-          tmt_context: "arch=${{ matrix.arch }}"
+          tmt_context: "arch=${{ matrix.arch }};distro=fedora"
           tmt_plan_regex: "/anaconda/"
           tf_scope: private
           secrets: "QUAY_USERNAME=${{ secrets.QUAY_USERNAME }};QUAY_PASSWORD=${{ secrets.QUAY_PASSWORD }};QUAY_SECRET=${{ secrets.QUAY_SECRET }};CERT_URL=${{ secrets.CERT_URL }}"
@@ -248,7 +248,7 @@ jobs:
           arch: ${{ matrix.arch }}
           update_pull_request_status: true
           pull_request_status_name: "bootc-fedora-41-anaconda-${{ matrix.arch }}"
-          tmt_context: "arch=${{ matrix.arch }}"
+          tmt_context: "arch=${{ matrix.arch }};distro=fedora"
           tmt_plan_regex: "/anaconda/"
           tf_scope: private
           secrets: "QUAY_USERNAME=${{ secrets.QUAY_USERNAME }};QUAY_PASSWORD=${{ secrets.QUAY_PASSWORD }};QUAY_SECRET=${{ secrets.QUAY_SECRET }};CERT_URL=${{ secrets.CERT_URL }}"
