@@ -78,7 +78,7 @@ jobs:
         with:
           compose: RHEL-9.5.0-Nightly
           api_key: ${{ secrets.TF_API_KEY }}
-          git_url: https://github.com/virt-s1/bootc-workflow-test
+          git_url: https://gitlab.com/fedora/bootc/tests/bootc-workflow-test.git
           git_ref: main
           arch: ${{ matrix.arch }}
           update_pull_request_status: true
@@ -112,7 +112,7 @@ jobs:
         with:
           compose: RHEL-9.4.0-Nightly
           api_key: ${{ secrets.TF_API_KEY }}
-          git_url: https://github.com/virt-s1/bootc-workflow-test
+          git_url: https://gitlab.com/fedora/bootc/tests/bootc-workflow-test.git
           git_ref: main
           arch: ${{ matrix.arch }}
           update_pull_request_status: true
@@ -146,7 +146,7 @@ jobs:
         with:
           compose: RHEL-9.5.0-Nightly
           api_key: ${{ secrets.TF_API_KEY }}
-          git_url: https://github.com/virt-s1/bootc-workflow-test
+          git_url: https://gitlab.com/fedora/bootc/tests/bootc-workflow-test.git
           git_ref: main
           arch: ${{ matrix.arch }}
           update_pull_request_status: true
@@ -180,7 +180,7 @@ jobs:
         with:
           compose: RHEL-9.5.0-Nightly
           api_key: ${{ secrets.TF_API_KEY }}
-          git_url: https://github.com/virt-s1/bootc-workflow-test
+          git_url: https://gitlab.com/fedora/bootc/tests/bootc-workflow-test.git
           git_ref: main
           arch: ${{ matrix.arch }}
           update_pull_request_status: true
@@ -213,7 +213,7 @@ jobs:
         with:
           compose: RHEL-9.5.0-Nightly
           api_key: ${{ secrets.TF_API_KEY }}
-          git_url: https://github.com/virt-s1/bootc-workflow-test
+          git_url: https://gitlab.com/fedora/bootc/tests/bootc-workflow-test.git
           git_ref: main
           arch: ${{ matrix.arch }}
           update_pull_request_status: true
@@ -246,7 +246,7 @@ jobs:
         with:
           compose: RHEL-9.4.0-Nightly
           api_key: ${{ secrets.TF_API_KEY }}
-          git_url: https://github.com/virt-s1/bootc-workflow-test
+          git_url: https://gitlab.com/fedora/bootc/tests/bootc-workflow-test.git
           git_ref: main
           arch: ${{ matrix.arch }}
           update_pull_request_status: true
@@ -279,7 +279,7 @@ jobs:
         with:
           compose: RHEL-9.5.0-Nightly
           api_key: ${{ secrets.TF_API_KEY }}
-          git_url: https://github.com/virt-s1/bootc-workflow-test
+          git_url: https://gitlab.com/fedora/bootc/tests/bootc-workflow-test.git
           git_ref: main
           arch: ${{ matrix.arch }}
           update_pull_request_status: true
@@ -313,7 +313,7 @@ jobs:
         with:
           compose: RHEL-9.5.0-Nightly
           api_key: ${{ secrets.TF_API_KEY }}
-          git_url: https://github.com/virt-s1/bootc-workflow-test
+          git_url: https://gitlab.com/fedora/bootc/tests/bootc-workflow-test.git
           git_ref: main
           arch: ${{ matrix.arch }}
           update_pull_request_status: true
@@ -347,7 +347,7 @@ jobs:
         with:
           compose: RHEL-9.5.0-Nightly
           api_key: ${{ secrets.TF_API_KEY }}
-          git_url: https://github.com/virt-s1/bootc-workflow-test
+          git_url: https://gitlab.com/fedora/bootc/tests/bootc-workflow-test.git
           git_ref: main
           arch: ${{ matrix.arch }}
           update_pull_request_status: true
