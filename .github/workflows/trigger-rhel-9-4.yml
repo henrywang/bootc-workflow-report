@@ -4,7 +4,7 @@ name: rhel9-rhel_bootc:rhel-9.4 trigger
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 5 * * *'
+    - cron: '0 2 * * *'
 
 jobs:
   check-image:
