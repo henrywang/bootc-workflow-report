@@ -72,6 +72,12 @@ jobs:
           ref: ${{ needs.pr-info.outputs.sha }}
           fetch-depth: 0
 
+      - name: Generate TEMPDIR variable
+        id: gen_tempdir
+        run: |
+          TEMPDIR=$(mktemp -d -u)
+          echo "TEMPDIR=$TEMPDIR" >> $GITHUB_OUTPUT
+
       - name: Run the tests
         uses: sclorg/testing-farm-as-github-action@v2
         with:
@@ -86,7 +92,7 @@ jobs:
           tmt_plan_regex: "/bib-image/"
           tf_scope: private
           secrets: "TIER1_IMAGE_URL=${{ secrets.RHEL95_TIER1_IMAGE_URL }};QUAY_USERNAME=${{ secrets.QUAY_USERNAME }};QUAY_PASSWORD=${{ secrets.QUAY_PASSWORD }};QUAY_SECRET=${{ secrets.QUAY_SECRET }};RHEL_REGISTRY_URL=${{ secrets.RHEL_REGISTRY_URL }};DOWNLOAD_NODE=${{ secrets.DOWNLOAD_NODE }};AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }};AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }};GOVC_URL=${{ secrets.GOVC_URL }};GOVC_USERNAME=${{ secrets.GOVC_USERNAME }};GOVC_PASSWORD=${{ secrets.GOVC_PASSWORD }};RHC_AK=${{ secrets.RHC_AK }};RHC_ORGID=${{ secrets.RHC_ORGID }};RHEL_REGISTRY_URL=${{ secrets.RHEL_REGISTRY_URL }}"
-          variables: "ARCH=${{ matrix.arch }};AWS_REGION=${{ secrets.AWS_REGION }};GOVC_INSECURE=1"
+          variables: "TEMPDIR=${{ steps.gen_tempdir.outputs.TEMPDIR }};ARCH=${{ matrix.arch }};AWS_REGION=${{ secrets.AWS_REGION }};GOVC_INSECURE=1"
 
   rhel94-bib-image:
     needs: pr-info
@@ -106,6 +112,12 @@ jobs:
           ref: ${{ needs.pr-info.outputs.sha }}
           fetch-depth: 0
 
+      - name: Generate TEMPDIR variable
+        id: gen_tempdir
+        run: |
+          TEMPDIR=$(mktemp -d -u)
+          echo "TEMPDIR=$TEMPDIR" >> $GITHUB_OUTPUT
+
       - name: Run the tests
         uses: sclorg/testing-farm-as-github-action@v2
         with:
@@ -120,7 +132,7 @@ jobs:
           tmt_plan_regex: "/bib-image/"
           tf_scope: private
           secrets: "TIER1_IMAGE_URL=${{ secrets.RHEL94_TIER1_IMAGE_URL }};QUAY_USERNAME=${{ secrets.QUAY_USERNAME }};QUAY_PASSWORD=${{ secrets.QUAY_PASSWORD }};QUAY_SECRET=${{ secrets.QUAY_SECRET }};DOWNLOAD_NODE=${{ secrets.DOWNLOAD_NODE }};AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }};AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }};GOVC_URL=${{ secrets.GOVC_URL }};GOVC_USERNAME=${{ secrets.GOVC_USERNAME }};GOVC_PASSWORD=${{ secrets.GOVC_PASSWORD }};RHC_AK=${{ secrets.RHC_AK }};RHC_ORGID=${{ secrets.RHC_ORGID }};RHEL_REGISTRY_URL=${{ secrets.RHEL_REGISTRY_URL }}"
-          variables: "ARCH=${{ matrix.arch }};AWS_REGION=${{ secrets.AWS_REGION }};GOVC_INSECURE=1"
+          variables: "TEMPDIR=${{ steps.gen_tempdir.outputs.TEMPDIR }};ARCH=${{ matrix.arch }};AWS_REGION=${{ secrets.AWS_REGION }};GOVC_INSECURE=1"
 
   cs9-bib-image:
     needs: pr-info
@@ -140,6 +152,12 @@ jobs:
           ref: ${{ needs.pr-info.outputs.sha }}
           fetch-depth: 0
 
+      - name: Generate TEMPDIR variable
+        id: gen_tempdir
+        run: |
+          TEMPDIR=$(mktemp -d -u)
+          echo "TEMPDIR=$TEMPDIR" >> $GITHUB_OUTPUT
+
       - name: Run the tests
         uses: sclorg/testing-farm-as-github-action@v2
         with:
@@ -154,7 +172,7 @@ jobs:
           tmt_plan_regex: "/bib-image/"
           tf_scope: private
           secrets: "TIER1_IMAGE_URL=${{ secrets.CS9_TIER1_IMAGE_URL }};QUAY_USERNAME=${{ secrets.QUAY_USERNAME }};QUAY_PASSWORD=${{ secrets.QUAY_PASSWORD }};QUAY_SECRET=${{ secrets.QUAY_SECRET }};AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }};AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }};CERT_URL=${{ secrets.CERT_URL }};GOVC_URL=${{ secrets.GOVC_URL }};GOVC_USERNAME=${{ secrets.GOVC_USERNAME }};GOVC_PASSWORD=${{ secrets.GOVC_PASSWORD }}"
-          variables: "ARCH=${{ matrix.arch }};AWS_REGION=${{ secrets.AWS_REGION }};GOVC_INSECURE=1"
+          variables: "TEMPDIR=${{ steps.gen_tempdir.outputs.TEMPDIR }};ARCH=${{ matrix.arch }};AWS_REGION=${{ secrets.AWS_REGION }};GOVC_INSECURE=1"
 
   cs9-dev-bib-image:
     needs: pr-info
@@ -175,6 +193,12 @@ jobs:
           ref: ${{ needs.pr-info.outputs.sha }}
           fetch-depth: 0
 
+      - name: Generate TEMPDIR variable
+        id: gen_tempdir
+        run: |
+          TEMPDIR=$(mktemp -d -u)
+          echo "TEMPDIR=$TEMPDIR" >> $GITHUB_OUTPUT
+
       - name: Run the tests
         uses: sclorg/testing-farm-as-github-action@v2
         with:
@@ -189,7 +213,7 @@ jobs:
           tmt_plan_regex: "/bib-image/"
           tf_scope: private
           secrets: "TIER1_IMAGE_URL=${{ secrets.CS9_DEV_TIER1_IMAGE_URL }};QUAY_USERNAME=${{ secrets.QUAY_USERNAME }};QUAY_PASSWORD=${{ secrets.QUAY_PASSWORD }};QUAY_SECRET=${{ secrets.QUAY_SECRET }};AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }};AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }};CERT_URL=${{ secrets.CERT_URL }};GOVC_URL=${{ secrets.GOVC_URL }};GOVC_USERNAME=${{ secrets.GOVC_USERNAME }};GOVC_PASSWORD=${{ secrets.GOVC_PASSWORD }}"
-          variables: "ARCH=${{ matrix.arch }};AWS_REGION=${{ secrets.AWS_REGION }};GOVC_INSECURE=1"
+          variables: "TEMPDIR=${{ steps.gen_tempdir.outputs.TEMPDIR }};ARCH=${{ matrix.arch }};AWS_REGION=${{ secrets.AWS_REGION }};GOVC_INSECURE=1"
 
   fedora-40-bib-image:
     needs: pr-info
@@ -209,6 +233,12 @@ jobs:
           ref: ${{ needs.pr-info.outputs.sha }}
           fetch-depth: 0
 
+      - name: Generate TEMPDIR variable
+        id: gen_tempdir
+        run: |
+          TEMPDIR=$(mktemp -d -u)
+          echo "TEMPDIR=$TEMPDIR" >> $GITHUB_OUTPUT
+
       - name: Run the tests
         uses: sclorg/testing-farm-as-github-action@v2
         with:
@@ -223,7 +253,7 @@ jobs:
           tmt_plan_regex: "/bib-image/"
           tf_scope: private
           secrets: "QUAY_USERNAME=${{ secrets.QUAY_USERNAME }};QUAY_PASSWORD=${{ secrets.QUAY_PASSWORD }};QUAY_SECRET=${{ secrets.QUAY_SECRET }};AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }};AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }};GOVC_URL=${{ secrets.GOVC_URL }};GOVC_USERNAME=${{ secrets.GOVC_USERNAME }};GOVC_PASSWORD=${{ secrets.GOVC_PASSWORD }}"
-          variables: "ARCH=${{ matrix.arch }};AWS_REGION=${{ secrets.AWS_REGION }};GOVC_INSECURE=1;TIER1_IMAGE_URL=${{ vars.FEDORA_40_TIER1_IMAGE_URL }}"
+          variables: "TEMPDIR=${{ steps.gen_tempdir.outputs.TEMPDIR }};ARCH=${{ matrix.arch }};AWS_REGION=${{ secrets.AWS_REGION }};GOVC_INSECURE=1;TIER1_IMAGE_URL=${{ vars.FEDORA_40_TIER1_IMAGE_URL }}"
 
   fedora-41-bib-image:
     needs: pr-info
@@ -243,6 +273,12 @@ jobs:
           ref: ${{ needs.pr-info.outputs.sha }}
           fetch-depth: 0
 
+      - name: Generate TEMPDIR variable
+        id: gen_tempdir
+        run: |
+          TEMPDIR=$(mktemp -d -u)
+          echo "TEMPDIR=$TEMPDIR" >> $GITHUB_OUTPUT
+
       - name: Run the tests
         uses: sclorg/testing-farm-as-github-action@v2
         with:
@@ -257,4 +293,4 @@ jobs:
           tmt_plan_regex: "/bib-image/"
           tf_scope: private
           secrets: "QUAY_USERNAME=${{ secrets.QUAY_USERNAME }};QUAY_PASSWORD=${{ secrets.QUAY_PASSWORD }};QUAY_SECRET=${{ secrets.QUAY_SECRET }};AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }};AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }};GOVC_URL=${{ secrets.GOVC_URL }};GOVC_USERNAME=${{ secrets.GOVC_USERNAME }};GOVC_PASSWORD=${{ secrets.GOVC_PASSWORD }}"
-          variables: "ARCH=${{ matrix.arch }};AWS_REGION=${{ secrets.AWS_REGION }};GOVC_INSECURE=1;TIER1_IMAGE_URL=${{ vars.FEDORA_41_TIER1_IMAGE_URL }}"
+          variables: "TEMPDIR=${{ steps.gen_tempdir.outputs.TEMPDIR }};ARCH=${{ matrix.arch }};AWS_REGION=${{ secrets.AWS_REGION }};GOVC_INSECURE=1;TIER1_IMAGE_URL=${{ vars.FEDORA_41_TIER1_IMAGE_URL }}"
